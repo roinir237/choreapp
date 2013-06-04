@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 app.use(express.logger());
 
-app.get('/', function(request, response) {
+app.get('/users', function(request, response) {
 	var data = {
 		fname: 'Roi',
 		lname: 'Nir',
