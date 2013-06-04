@@ -3,7 +3,7 @@ var app = express();
 app.use(express.logger());
 
 app.get('/users', function(request, response) {
-	var data = {users:[
+	var data = {[
 			{fname: 'Roi',lname: 'Nir',age: '21'},
 			{fname: 'Anna',lname: 'McEntire',age: '22'},
 		
