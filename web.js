@@ -3,10 +3,11 @@ var app = express();
 app.use(express.logger());
 
 app.get('/users', function(request, response) {
-	var data = {
-		fname: 'Roi',
-		lname: 'Nir',
-		age: '21'};
+	var data = {users:[
+			{fname: 'Roi',lname: 'Nir',age: '21'},
+			{fname: 'Anna',lname: 'McEntire',age: '22'},
+		
+		]};
 
   response.send(data);
 });
