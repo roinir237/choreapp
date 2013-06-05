@@ -3,13 +3,13 @@ var app = express();
 app.use(express.logger());
 
 app.get('/users', function(request, response) {
-	var data = {[
-			{fname: 'Roi',lname: 'Nir',age: '21'},
-			{fname: 'Anna',lname: 'McEntire',age: '22'},
+	var data = [
+			{fname: 'Roi',lname: 'Nir',age: '21',id:'1'},
+			{fname: 'Anna',lname: 'McEntire',age: '22',id:'2'}
 		
-		]};
-
-  response.send(data);
+		];
+	response.set("Access-Control-Allow-Origin", "*");
+	response.json(data);
 });
 
 var port = process.env.PORT || 5000;
