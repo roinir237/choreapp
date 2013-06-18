@@ -22,8 +22,8 @@ require([
 	'app',
 	], 
 
-	function(App){
-  		// The "app" dependency is passed in as "App"
+	function(App){	
+		console.log('main: launching app.js');
   		App.initialize();
 	}
 );

@@ -1,0 +1,81 @@
+
+var express = require('express');
+
+var connect = require('connect');
+// Custom csrf library
+var csrf = require('./js/security/csrf');
+
+app = express();
+
+var allowedHost = {
+  'http://localhost:1337': true
+};
+
+var allowCrossDomain = function(req, res, next) {
+  	if(allowedHost[req.headers.origin]) {
+    		res.header('Access-Control-Allow-Credentials', true);
+    		res.header('Access-Control-Allow-Origin', req.headers.origin)
+    		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    		res.header('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+    		next();
+  	} else {
+    		res.send(403,{auth: false});
+  	}
+}
+
+app.configure(function() {
+    	app.use(express.cookieParser());
+    	app.use(express.session({ secret: '1234567890QWERTY' }));
+    	app.use(express.bodyParser());
+    	app.use(allowCrossDomain);
+    	app.use(csrf.check);
+});
+
+app.get('/session', function(req, res){ 
+	console.log("attempted connection by get");
+  	if(typeof req.session.email !== 'undefined'){
+		res.send({auth: true, id: req.session.id, username: req.session.username, _csrf: req.session._csrf});
+  	} else {
+    		res.send({auth: false, _csrf: req.session._csrf});
+  	}
+});
+
+app.post('/session', function(req, res){  
+	// Login
+  	// Here you would pull down your user credentials and match them up
+  	// to the request
+	console.log("attempted connection by post");
+	if(req.body.loginEmail == 'roinir237@gmail.com' && req.body.loginPassword == '237ssbbu') {
+		console.log("Welcome Roi!");  		
+		req.session.email = req.body.loginEmail;
+		req.session.id = 100;
+  		res.send({auth: true, id: req.session.id, email: req.session.email});
+	}
+});
+
+app.del('/session/:id', function(req, res, next){  
+  	// Logout by clearing the session
+  	req.session.regenerate(function(err){
+    		// Generate a new csrf token so the user can login again
+    		// This is pretty hacky, connect.csrf isn't built for rest
+    		// I will probably release a restful csrf module
+    		csrf.generate(req, res, function () {
+      			res.send({auth: false, _csrf: req.session._csrf});    
+    		});
+	});  
+});
+
+app.options('/session', function(req, res) {
+    // At this point, the `allowCrossDomain()` middleware will already have
+    // taken care of the CORS stuff, so just return OK.
+    res.send(200);
+});
+
+app.listen(8000);
+
+console.log("listening on 8000");
+
+
+
+
+

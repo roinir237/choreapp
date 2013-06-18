@@ -1,0 +1,17 @@
+#header_container {
+	height:800px;
+}
+
+#loginForm{
+	margin-top:20px;
+	margin-bottom:0px;
+	/*background:#555;*/
+}
+
+#loginBtn, #logoutBtn{
+	width:80px;
+}
+
+#forgotPassBtn {
+	float:right;
+}

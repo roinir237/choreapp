@@ -1,18 +1,23 @@
-<!doctype html charset=UTF-8" >
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Index</title>
-    <!-- Load the script "js/main.js" as our entry point -->
-    <script data-main="js/main" src="js/libs/require/require.js"></script>
-  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.css">
+    	<title>Index</title>
+    	<!-- Load the script "js/main.js" as our entry point -->
+    	<script data-main="js/main" src="js/libs/require/require.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/flatUI/bootstrap/css/bootstrap.css">
+
 </head>
 <body>
 
 <div class="container">
-  <h1>Projects</h1>
+  <div id="header" class="row-fluid">
+    <div id="title_container" class="span6"><h1>Chore App</h1></div>
+    <div id="login_container" class="span6"></div>
+ </div>
   <hr/>
   <div id="menu"></div>
-  <div id="content"></div>
+  <div class="content"></div>
 </div>
 
 </body>

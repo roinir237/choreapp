@@ -1,0 +1,34 @@
+<div class="row-fluid">
+	<div class="span6">
+		<h3>Sign up here</h3>
+		<form class="form-horizontal">
+			<div class="control-group">
+		    		<label class="control-label" for="newUserName">Name</label>
+		    		<div class="controls">
+		      			<input type="text" name="newUserName" id="newUserName" placeholder="Name">
+		    		</div>
+		  	</div>	
+			<div class="control-group">
+		    		<label class="control-label" for="newUserEmail">Email</label>
+		    		<div class="controls">
+		      			<input type="text" name="newUserEmail" id="newUserEmail" placeholder="Email">
+		    		</div>
+		  	</div>
+		  	<div class="control-group">
+		    		<label class="control-label" for="inputPassword">Password</label>
+		    		<div class="controls">
+		      			<input type="password" id="inputPassword" placeholder="Password">
+		    		</div>
+		  	</div>
+		  	<div class="control-group">
+				<div class="controls">
+		      			<button type="submit" class="btn">sign up</button>
+				</div>
+		   	</div>
+		</form>
+	</div>
+
+	<div class="span6">
+		<h3>or using facebook</h3>
+	</div>
+</div>

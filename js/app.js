@@ -1,15 +1,34 @@
 define([
-	'jquery',
+ 	'jquery',
   	'underscore',
   	'backbone',
-  	'router', // Request router.js
+  	'router', 
+	'models/app/sessionModel',
+	'views/header/header'
 	], 
-	
-	function($, _, Backbone, Router){
+
+	function($, _, Backbone, Router, Session,HeaderView){
   		var initialize = function(){
-    			// Pass in our Router module and call it's initialize function
-			console.log('app: launching router.js');
-    			Router.initialize();
+			$.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+        			options.url = 'http://localhost:8000' + options.url;
+      			});
+
+			Router.initialize();
+
+			Session.on('change:auth', function(){
+				if(!Session.get('auth')) {
+					 window.location.hash = "/login"; 					
+				}else{
+					window.location.hash = "/";
+				}
+			});
+				
+			
+			Session.getAuth(function () {
+				var header = new HeaderView();
+				header.render();
+				Backbone.history.start();
+			});	
   		}
 
   		return {initialize: initialize};

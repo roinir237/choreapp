@@ -1,0 +1,14 @@
+define([
+	'underscore',
+  	'backbone',
+  	'models/project'
+	], 
+	
+	function(_, Backbone, ProjectModel){
+  		var UserCollection = Backbone.Collection.extend({
+    			url
+  		});
+  	
+		return ProjectCollection;
+	}
+);
