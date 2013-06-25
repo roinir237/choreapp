@@ -1,12 +1,55 @@
-
-//var config = require('./config');
+var config = require('./config');
 
 var mongoose = require('mongoose');
+mongoose.connect(config.dbUrl);
 
-var databaseUrl = "appUser:237ssbbu@ocalhost:28017/choreapp",
-	collections = ["users"],
-	db = require("mongojs").connect(databaseUrl, collections);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
-db.users.find()
+
+// Define the user schema and the user model
+var User = mongoose.model('users',{
+	fname: 			String,
+	lname: 			String,
+	email: 			String,
+	password: 		String
+});
+
+// Methods
+exports.getUserCreds = function(email,callback) {
+	User.findOne({email:email},'email _id password', function(err,creds) {		
+		callback(err,creds);
+	});
+}
+
+exports.addUser = function(req,res,next) {
+	// TO-DO: make sure creds contain pass,fname,lname,email.
+	User.findOne({email:req.body.email},'_id',function (err,id){
+		if(id==null) {
+			var newUser = new User(req.body);
+			newUser.save(function(err){
+				console.log("err: " +err);
+				if(err) res.send(404,{err:err});
+				else{
+					console.log("Success");
+					res.send(200,{});
+				}
+			});
+		} else {
+			console.log("A user with this email is already registered");
+			res.send(500,{err:"A user with this email is already registered"});
+		}
+	});
+}
+
+exports.getUser = function(req,res,next){
+	var id = req.params.id;
+	User.findOne({_id:id},function(err,user){
+		res.send(200,user);
+	});
+}
+
+
+
 
 

@@ -35,14 +35,13 @@ define([
 				this.set('userPass',$.cookie('userPass'));
 				this.set('remember',$.cookie('remember'));
 			},
-			login: function (creds) {
+			login: function (creds,callback) {
 				that = this;
-				
 				this.save (creds, {
 					success: function () {
-						if(creds.rememberMe == 'on' && creds.loginEmail != '' && creds.loginPassword != '') {
-							$.cookie('userEmail',creds.loginEmail);
-							$.cookie('userPass',creds.loginPassword);
+						if(creds.rememberMe == 'on' && creds.email != '' && creds.password != '') {
+							$.cookie('userEmail',creds.email);
+							$.cookie('userPass',creds.password);
 						}else{
 							console.log("forgeting user");
 							$.cookie('userEmail','');
@@ -50,7 +49,11 @@ define([
 						}
 										
 						$.cookie('remember',creds.rememberMe);
-						that.loadFromCookie();				
+						that.loadFromCookie();
+						if(typeof callback !== 'undefined'){
+						  if(typeof callback.success == 'function' && that.get('auth')) callback.success();		
+					    if(typeof callback.error == 'function' && !that.get('auth')) callback.error();
+					  }
 					}
 				});
 			},
@@ -58,9 +61,7 @@ define([
 				var that = this;
 				this.destroy ({
 					success: function (model, resp) {
-						model.clear();
-						model.id = null;
-			
+						model.clear({silent:true}); 
 						that.set ({auth:false, _csrf: resp._csrf});
 					}
 				});

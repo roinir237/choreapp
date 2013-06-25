@@ -1,20 +1,23 @@
-var csrf = require('./csrf');
+var csrf = require('./csrf'),
+Users = require('./users');
 
 exports.connect = function (req, res, next) {
-	console.log("Oh hello there");
 	res.send(200);
 	//next();
 };
 
 exports.login = function (req, res, next) {
-	console.log("attempted connection by post");
-	if(req.body.loginEmail == 'roinir237@gmail.com' && req.body.loginPassword == '237ssbbu') {
-		console.log("Welcome Roi!");  		
-		req.session.email = req.body.loginEmail;
-		req.session.id = 100;
-		res.send({auth: true, id: req.session.id, email: req.session.email});
-	}
-	//next();
+	Users.getUserCreds(req.body.email,function(err,creds) {
+		if (err) return handleError(err);
+
+		if(creds != null && req.body.password == creds.password) {
+			req.session.email = creds.email;
+			//req.session.id = creds._id;
+			res.send({auth: true, id: creds._id, email: req.session.email});
+		}else{
+			res.send({auth: false, _csrf: req.session._csrf});
+		}
+	});
 };
 
 exports.logout = function (req, res, next) {
@@ -22,21 +25,19 @@ exports.logout = function (req, res, next) {
  	req.session.regenerate(function(err){
    		// Generate a new csrf token so the user can login again
    		// This is pretty hacky, connect.csrf isn't built for rest
-    		// I will probably release a restful csrf module
-    		csrf.generate(req, res, function () {
-    			res.send({auth: false, _csrf: req.session._csrf});    
-    		});
+    	csrf.generate(req, res, function () {
+        res.send({_csrf: req.session._csrf});    
+    	});
 	});
-	//next();  
 };
 
-exports.authenticate = function (req, res, next) {
-	console.log("attempted connection by get");
+exports.isAuthenticated = function (req, res, next) {
  	if(typeof req.session.email !== 'undefined'){
-		res.send({auth: true, id: req.session.id, username: req.session.username, _csrf: req.session._csrf});
-  	} else {
-    		res.send({auth: false, _csrf: req.session._csrf});
-  	}
-	//next();
+ 	  Users.getUserCreds(req.session.email,function (err,creds) {
+		  res.send({auth: true, id: creds._id, _csrf: req.session._csrf});
+    });
+  } else {
+    res.send({auth: false, _csrf: req.session._csrf});
+  }
 };
 

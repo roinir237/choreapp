@@ -1,12 +1,12 @@
 define([
 	'jquery',
 	'underscore',
-  	'backbone'
+  'backbone'
 	], 
 	
 	function($,_, Backbone){
   		var UserCollection = Backbone.Collection.extend({
-    			url: '/users'
+    			model:User.model
   		});
   	
 		return UserCollection;

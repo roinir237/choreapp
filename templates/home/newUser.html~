@@ -1,11 +1,17 @@
 <div class="row-fluid">
 	<div class="span6">
 		<h3>Sign up here</h3>
-		<form class="form-horizontal">
+		<form class="form-horizontal" id="newUserForm">
 			<div class="control-group">
-		    		<label class="control-label" for="newUserName">Name</label>
+		    		<label class="control-label" for="newUserFName">First name</label>
 		    		<div class="controls">
-		      			<input type="text" name="newUserName" id="newUserName" placeholder="Name">
+		      			<input type="text" name="newUserFName" id="newUserName" placeholder="First name">
+		    		</div>
+		  	</div>	
+			<div class="control-group">
+		    		<label class="control-label" for="newUserLName">Last name</label>
+		    		<div class="controls">
+		      			<input type="text" name="newUserLName" id="newUserLName" placeholder="Last name">
 		    		</div>
 		  	</div>	
 			<div class="control-group">
@@ -15,9 +21,15 @@
 		    		</div>
 		  	</div>
 		  	<div class="control-group">
-		    		<label class="control-label" for="inputPassword">Password</label>
+		    		<label class="control-label" for="newUserPassword">Password</label>
 		    		<div class="controls">
-		      			<input type="password" id="inputPassword" placeholder="Password">
+		      			<input type="password" id="newUserPassword" placeholder="Password">
+		    		</div>
+		  	</div>
+			<div class="control-group">
+		    		<label class="control-label" for="verifyPassword">Verify password</label>
+		    		<div class="controls">
+		      			<input type="password" id="verifyPassword" placeholder="Verify password">
 		    		</div>
 		  	</div>
 		  	<div class="control-group">
@@ -29,6 +41,6 @@
 	</div>
 
 	<div class="span6">
-		<h3>or using facebook</h3>
+		<h3>Or use facebook...</h3>
 	</div>
 </div>

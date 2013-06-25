@@ -1,52 +1,50 @@
 define([
 	'jquery',
-  	'underscore',
-  	'backbone',
-	'models/app/sessionModel',
-	'views/users/list',
-	'views/header/header'
+  'underscore',
+  'backbone',
+	'models/app/sessionModel'
 	], 
 	
-	function($, _, Backbone,Session, UserListView,HeaderView){
+	function($, _, Backbone,Session){
  
   		var AppRouter = Backbone.Router.extend({
     			routes: {
 				'' : 'home',
 				'login':'showNewUser',
-      				'projects': 'showProjects',
-      				'users': 'showUsers'
+      	'tasks': 'showTasks',
+      	'children': 'showChildren'
 			}
   		});
 
   		var initialize = function(){
-			var app_router = new AppRouter;		
-	
-			app_router.on('route:home', function(actions){
-				console.log('Home page loaded');
-				var userList = new UserListView();
-				userList.render();
-			});
+			  var app_router = new AppRouter;		
 
-			app_router.on('route:showNewUser', function(actions){
-				if(!Session.get('auth')) {
-					console.log('User needs to login');
-					require(['views/home/newUser'], function (newUserPage) {				
-						newUserForm = new newUserPage();
-						newUserForm.render();	
+			  app_router.on('route:showNewUser', function(actions){
+				  if(!Session.get('auth')) {
+					  console.log('User needs to login');
+					  require(['views/user/newUser'], function (newUserPage) {				
+						  newUserForm = new newUserPage();
+						  newUserForm.render();	
+					  });
+				  }
+			  });
+			
+			  app_router.on('route:home', function(actions){
+				  console.log('Home page loaded');
+				  require(['views/children/list'], function (ChildrenListView) {				
+					  childrenList = new ChildrenListView();
+						childrenList.render();	
 					});
-				}
-
-			});
+			  });
 
 
-			app_router.on('route:showProjects', function(){
-				console.log('show projects');
-			});
+			  app_router.on('route:showTasks', function(){
+				  console.log('show tasks');
+			  });
 
-			app_router.on('route:showUsers', function(){
-				console.log('show users');
-	     		});
-
+			  app_router.on('route:showChildren', function(){
+				  console.log('show children');
+	      });
 		};
 
 		var listenToRoutes = function(app_router) {

@@ -1,0 +1,1 @@
+exports.dbUrl = "appUser:237ssbbu@localhost:27017/choreapp";
