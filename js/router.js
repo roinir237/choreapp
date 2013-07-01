@@ -8,18 +8,16 @@ define([
 	function($, _, Backbone,Session){
  
   		var AppRouter = Backbone.Router.extend({
-    			routes: {
-				'' : 'home',
-				'login':'showNewUser',
-      	'tasks': 'showTasks',
-      	'children': 'showChildren'
-			}
+    		routes: {
+					'' : 'home',
+					'login':'showNewUser'
+				}
   		});
 
   		var initialize = function(){
 			  var app_router = new AppRouter;		
 
-			  app_router.on('route:showNewUser', function(actions){
+			  app_router.on('route:showNewUser', function(){
 				  if(!Session.get('auth')) {
 					  console.log('User needs to login');
 					  require(['views/user/newUser'], function (newUserPage) {				
@@ -29,22 +27,16 @@ define([
 				  }
 			  });
 			
-			  app_router.on('route:home', function(actions){
+			  app_router.on('route:home', function(){
 				  console.log('Home page loaded');
-				  require(['views/children/list'], function (ChildrenListView) {				
-					  childrenList = new ChildrenListView();
-						childrenList.render();	
+				  require(['views/children/list','views/chores/list','views/chores/newChore'], function (ChildrenListView,ChoreListView,newChoreView) {				
+						childrenList = new ChildrenListView();
+						childrenList.render();
+						choreList = new ChoreListView();
+						newChore = new newChoreView();
 					});
 			  });
 
-
-			  app_router.on('route:showTasks', function(){
-				  console.log('show tasks');
-			  });
-
-			  app_router.on('route:showChildren', function(){
-				  console.log('show children');
-	      });
 		};
 
 		var listenToRoutes = function(app_router) {

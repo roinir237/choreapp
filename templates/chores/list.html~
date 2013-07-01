@@ -1,0 +1,18 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10:45</td>
+      <td>Take out the trash</td>
+    </tr>
+    <tr>
+      <td>12:30</td>
+      <td>Make lunch</td>
+    </tr>
+  </tbody>
+</table>

@@ -8,10 +8,13 @@ define([
 	function($, _, Backbone){
 		var UserModel = Backbone.Model.extend({
 			urlRoot: '/user',
-			initialize: function (id) {
-			  this.fetch({
-					success:callback
-				});
+			initialize: function (id,callback) {
+			  if(id != null){ 
+			    this.id = id;  
+			    this.fetch({
+					  success:callback
+				  });
+				}
 			},
 			edit: function(props) {
 				that = this;

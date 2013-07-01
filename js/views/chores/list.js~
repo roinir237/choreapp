@@ -3,33 +3,27 @@ define([
   'underscore',
   'backbone',
   'app',
-  'collections/children',
-  'text!/templates/children/list.html'
+ // 'collections/children',
+  'text!/templates/chores/list.html'
 	], 
 	
-	function($, _, Backbone, App, ChildrenCollection, ChildListTemplate){
+	function($, _, Backbone, App, ChoreListTemplate){
 		
     var childListView= Backbone.View.extend({
-      el: $(".content"),
-      collection: new ChildrenCollection(),
+      el: $("#chore_list"),
+      //collection: new ChildrenCollection(),
 			initialize: function () {
-			  that = this; 
+			  /*that = this; 
 		    children = new ChildrenCollection();
 			  $.each(App.mainUser.get("children"), function(ind,id){
 			    children.addChild(id,function(){});
 			    console.log("child added");
 			  });
 			  
-			  this.children = children;
+			  this.children = children;*/
 			},
 			render: function(){
-			  thatView = this;
-			  this.children.on("add",function() {
-			    fnames = this.pluck("fname");
-			    thatView.$el.html(_.template(ChildListTemplate,{names: fnames}));
-			  });
-			  
-			  this.$el.html(_.template(ChildListTemplate,{names: this.children.pluck("fname")}));
+			  this.$el.html(_.template(ChoreListTemplate));
 	  	},
 	  	remove: function() {
 	  	  this._rendered = false;
@@ -43,6 +37,7 @@ define([
 			},
 			changeActive: function(ev) {
 			  $("#child_list li").removeClass('active');
+			  //$(ev.currentTarget).removeClass('active');
 			  $(ev.currentTarget).parent().addClass('active');
 			}
 			

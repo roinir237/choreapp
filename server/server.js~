@@ -3,6 +3,7 @@ var connect = require('connect');
 
 var userSession = require('./userSession');
 var users = require('./users');
+var chores = require('./chores');
 var csrf = require('./csrf');
 
 
@@ -42,8 +43,10 @@ app.post('/session',userSession.login);
 app.del('/session/:id', userSession.logout);
 
 app.get('/user/:id', users.getUser);
-app.post('/session',users.addUser);
+app.post('/user',users.addUser);
 
+//app.get('/chores/:id', chores.getChores);
+app.post('/chore',chores.addChore);
 
 app.listen(8000);
 console.log("listening on 8000");

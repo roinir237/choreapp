@@ -27,21 +27,22 @@ define([
     			return o;
 		};			
 
+    var mainUser = new User.model();
 
   	var initialize = function(){
 		  $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
         options.url = 'http://localhost:8000' + options.url;
       });
       
-			$.ajaxSetup({ cache: false });
-			
-			Router.initialize();			
+			$.ajaxSetup({ cache: false });			
 
 			Session.on('change:auth', function(){
-			console.log(typeof  newUserForm);
 				if(!Session.get('auth')) {
-					 window.location.hash = "/login"; 
-					 if(typeof menu != 'undefined') menu.remove();					
+					 window.location.hash = "/login";
+					 console.log(typeof menu.remove); 
+					 if(typeof menu.remove == 'function'){
+					 	menu.remove();
+					 } 					
 				}else{
 					console.log("user is logged in: " + window.location.hash);
 					if(window.location.hash === "#/login") {
@@ -50,9 +51,7 @@ define([
 					menu = new MenuView();
 					menu.render();
 				}
-			});
-				
-      var mainUser = new User.model();			
+			});			
 
 			mainUser.listenTo(Session,'change:auth',function() {
 				if(Session.get('auth')){	
@@ -62,10 +61,12 @@ define([
 						console.log("welcome " +that.get("fname"));
 					});
 				}else {
-				  this.clear();
 				  console.log("Bye " +this.get("fname"));
+				  this.clear();
 				}
 			});
+			
+			Router.initialize();
 			
 			Session.getAuth(function () {
 				var header = new HeaderView();
@@ -74,6 +75,6 @@ define([
 			});	
   	}
 
-  		return {initialize: initialize};
+    return {initialize: initialize, mainUser: mainUser};
 	}
 );

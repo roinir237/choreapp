@@ -1,10 +1,23 @@
-<div class="row-fluid">
-  <div class="span3">
+<div id="chore_navigator" class="row-fluid">
+  <div class="span5">
     <ul id="child_list" class="nav nav-list">
-    <li class="nav-header">Kids</li>
-      <li><a href="#">Kid 1</a></li>
-      <li><a href="#">Kid 2</a></li>
+      <li class="nav-header">Kids</li>
+      <% children.each(function(child) { %>
+				<li id="<%= child.get('_id') %>">
+          <a href="#/">
+				    <%= child.get('fname') %>
+          </a>
+        </li>
+		  <% }); %>
     </ul>
+    <input type="text" class="span5" placeholder="Email"  name="email" id="childEmail">
     <a href="#" class="btn btn-primary">Add kid</a>
+  </div>
+  <div class="span5" id="chore_list">
+  </div>
+</div>
+<div>
+  <div id="newChoreContainer">
+    
   </div>
 </div>
