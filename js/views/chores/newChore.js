@@ -3,23 +3,37 @@ define([
   'underscore',
   'backbone',
   'vent',
+  'models/app/userModel',
   'text!/templates/chores/addNew.html',
 	'models/chores/chore',
+	'views/home/layoutDialogue'
 	], 
 	
-	function($, _, Backbone, Vent, newChoreTemplate, Chore){
+	function($, _, Backbone, Vent, User, newChoreTemplate, Chore, Dialogue){
 
   		var newChoreView= Backbone.View.extend({
-    	  el: "#newChoreContainer",
 			  initialize: function () {
 			  		// Subscribe to event listener
-					_.bindAll(this);
-    			Vent.bind('changeActiveChild', this.activeChildChanged);
+					_.bindAll(this,"renderDialogue");
+    			Vent.bind('showNewChoreDialogue', this.renderDialogue);
+    			
 			  },
 			  render: function(){	
-			  	this.$el.html(_.template(newChoreTemplate));
+			  	this.$el.html(_.template(newChoreTemplate,{user:this.user}));		
 			  	//$(this.$el.selector).html(this.$el.html());
 			  	//console.log(this.el);
+				},
+				renderDialogue:function(userID){
+					var thatView = this
+					var dialogue = new Dialogue();
+
+					var user = new User.model(userID,function(){
+						console.log(user.get('fname'))
+						thatView.user = user;
+			  		dialogue.renderNested(thatView,"#dialogueContent");
+			  		Vent.bind("newChoreCreated", dialogue.remove);
+			  	});
+					
 				},
 	  		remove: function() {
           this.undelegateEvents();
@@ -27,31 +41,26 @@ define([
           this.stopListening();
           return this;
         },
-        activeChildChanged:function(childId){
-       		this.childId = childId;
-       		this.render();
-        },
 			  events: {
-				  'submit #newChoreForm':'createNewChore'
+				  'click #saveChore':'submitChore'
 			  },
-			  createNewChore: function(ev){
-				  /*var submitBtn = $('[type=submit]', ev.currentTarget);
+			  submitChore: function(ev){
+				  var submitBtn = $(ev.currentTarget);
 				  submitBtn.attr('disabled', 'disabled');
 				  
-				  var props = $(ev.currentTarget).serializeObject();
-				  props.userId = this.childId;
+				  var props = $(ev.currentTarget).parent().parent().parent().serializeObject();
+				  props.userId = this.user.id;
+				
+				  newChore = new Chore(props);
 				  
-				  newChore = new Chore(props);*/
-				  console.log("submitted form");
-				  /*newChore.save({
-					  success: function(){
-						  
-						  submitBtn.removeAttr("disabled");
+				  newChore.save({},{
+					  success: function(){ 
+					  	Vent.trigger("newChoreCreated", props.userId);
 					  },
 					  error: function(resp,err){
 						  submitBtn.removeAttr("disabled");
 					  }
-				  });*/
+				  });
 			  }
 		
   		});

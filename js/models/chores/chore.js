@@ -1,8 +1,7 @@
 define([
 	'jquery',
   'underscore',
-  'backbone',
-  
+  'backbone'
 	], 
 	
 	function($, _, Backbone){
@@ -10,10 +9,15 @@ define([
 			idAttribute:"_id",
 			urlRoot:"/chore",
 			initialize: function (id,callback) {
-
+				_.bindAll(this);
 			},
 			edit: function(props) {
-						
+				this.save({
+					success:function(){
+						props.success();
+					},
+					error:props.error()
+				});
 			},
 			getChore: function(callback){
 			

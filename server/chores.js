@@ -11,19 +11,20 @@ var db = mongoose.connection;
 // Define the chore schema and the chore model
 var Chore = mongoose.model('chores',{
 	name: 			String,
+	time: 			String,
 	userId: 		mongoose.Schema.ObjectId
 });
 
 // Methods
 exports.addChore = function(req,res,next) {
   console.log("add a chore");
-  var newChore = new User(req.body);
+  var newChore = new Chore(req.body);
   newChore.save(function(err){
 	  console.log("err: " +err);
 	  if(err) res.send(404,{err:err});
 	  else{
 	    console.log("Success");
-		  res.send(200,{});
+		res.send(200,{});
 	  }
 	});
 }

@@ -9,10 +9,10 @@ define([
 	  var ChildrenCollection = Backbone.Collection.extend({
       model:User.model,
     	addChild:function(id,callback) {
-    	  that = this;
+    	  thatCollection = this;
     	  
     	  var child = new this.model(id,function(){
-    	    that.add(child);
+    	    thatCollection.add(child);
     		  callback();
     	  });
     	   

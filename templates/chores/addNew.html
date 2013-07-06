@@ -1,8 +1,24 @@
-<h4>Create new Chore</h4><br/>
-<form id="newChoreForm" class="form-inline">
-	<input type="text" class="span5" placeholder="Time"  name="time" id="newChoreTime">
-  	<input type="text" class="span5" placeholder="Name" name="name" id="newChoreName">
-  	
-  	<input type="submit" id="createChoreBtn" class="btn" value="Add">
-</form>
 
+<h4>Assign a chore to <%= user.get("fname")%></h4>
+
+<form class="form-horizontal" id="newChoreForm">
+  <div class="control-group">
+  	<label class="control-label" for="newChoreName">Name</label>
+  	<div class="controls">
+      <input type="text" name="name" id="newChoreName" placeholder="Name">
+  	</div>
+	</div>
+	
+  <div class="control-group">
+    <label class="control-label" for="newChoreTime">Time</label>
+  	<div class="controls">
+      <input type="text" name="time" id="newChoreTime" placeholder="Time">
+  	</div>
+	</div>
+	
+  <div class="control-group">
+    <div class="controls">
+      <button id="saveChore" class="btn">Submit</button>
+    </div>
+ 	</div>
+</form>

@@ -37,8 +37,7 @@ define([
 				this.save(props,callback);
 			}
 		});
-	
-  	//return new UserModel();
+
   	return {model:UserModel};
 	}
 );

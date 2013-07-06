@@ -1,11 +1,12 @@
 define([
 	'jquery',
-  	'underscore',
-  	'backbone',
+  'underscore',
+  'backbone',
+  'vent',
 	'../../libs/jquery/jquery.cookie'
 	], 
 	
-	function($, _, Backbone){
+	function($, _, Backbone,Vent){
 		var SessionModel = Backbone.Model.extend({
 			urlRoot: '/session',
 			initialize: function () {
@@ -22,12 +23,12 @@ define([
 
 					var originalSuccess = options.success;
 
-    					options.success = function (resp) {
+    			options.success = function (resp) {
 						if(resp.auth == false) {
 							that.set({auth:false, _csrf: resp._csrf});
 						}	
-                				originalSuccess(resp);
-    					};
+            originalSuccess(resp);
+    			};
 				});
 			},
 			loadFromCookie: function () {
@@ -54,6 +55,7 @@ define([
 						  if(typeof callback.success == 'function' && that.get('auth')) callback.success();		
 					    if(typeof callback.error == 'function' && !that.get('auth')) callback.error();
 					  }
+					  Vent.trigger("authChanged", that.auth);
 					}
 				});
 			},
@@ -63,6 +65,7 @@ define([
 					success: function (model, resp) {
 						model.clear({silent:true}); 
 						that.set ({auth:false, _csrf: resp._csrf});
+						Vent.trigger("authChanged", that.auth);
 					}
 				});
 
@@ -74,6 +77,6 @@ define([
 			}			
 		});
 	
-  		return new SessionModel();
+  	return new SessionModel();
 	}
 );

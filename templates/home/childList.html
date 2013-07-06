@@ -1,0 +1,10 @@
+<ul class="nav nav-list">
+  	<li class="nav-header">Kids</li>
+  	<% children.each(function(child) { %>
+		<li id="<%= child.get('_id') %>">
+      	<a href="#/">
+					<%= child.get('fname') %>
+      	</a>
+    </li>
+	  <% }); %>
+</ul>

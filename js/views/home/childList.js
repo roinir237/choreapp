@@ -5,7 +5,7 @@ define([
   'app',
   'vent',
   'collections/children',
-  'text!/templates/children/list.html'
+  'text!/templates/home/childList.html'
 	], 
 	
 	function($, _, Backbone, App, Vent, ChildrenCollection, ChildListTemplate){
@@ -13,12 +13,12 @@ define([
     var childListView= Backbone.View.extend({
       collection: new ChildrenCollection(),
 			initialize: function () {
-			  that = this; 
+			 
 		    children = new ChildrenCollection();
-			  $.each(App.mainUser.get("children"), function(ind,id){
-			    children.addChild(id,function(){});
-			    console.log("child added");
-			  });
+		    console.log(JSON.stringify(App.mainUser.get("children")));
+			$.each(App.mainUser.get("children"), function(ind,id){
+				children.addChild(id,function(){});
+			});
 			  
 			  this.children = children;
 			},
